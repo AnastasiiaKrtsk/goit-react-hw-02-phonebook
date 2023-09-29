@@ -2,8 +2,7 @@ import { nanoid } from 'nanoid';
 //model.id = nanoid();=> "V1StGXR8_Z5jdHi6B-myT"
 
 import { Component } from 'react';
-import Section from './section/Section';
-import AddContact from './add/AddContact';
+import ContactForm from './contact-form/ContactForm';
 import Contacts from './contacts/Contacts';
 class App extends Component {
   state = {
@@ -13,10 +12,12 @@ class App extends Component {
     number: '',
   };
   handleNameChange = e => {
+    const value = e.target.value.replace(/[^A-Za-z\s]/g, ''); // Allow letters and spaces
     this.setState({
-      name: e.target.value,
+      name: value,
     });
   };
+
   handleNumberChange = e => {
     const formattedNumber = this.formatPhoneNumber(e.target.value);
     this.setState({ number: formattedNumber });
@@ -24,16 +25,16 @@ class App extends Component {
   formatPhoneNumber = input => {
     const value = input.replace(/\D/g, '');
     const formattedValue = value
-      .slice(0, 9)
+      .slice(0, 7)
       .replace(/(\d{3})(\d{2})(\d{2})/, '$1-$2-$3');
 
     return formattedValue;
   };
+
   handleAddContact = () => {
     const { name, number } = this.state;
-    const letters = /^[A-Za-z]+$/;
 
-    if (letters.test(name) && name.trim() !== '' && number.trim() !== '') {
+    if (name.trim() !== '' && number.trim() !== '') {
       const newContact = {
         id: nanoid(),
         name: name.trim(),
@@ -52,33 +53,21 @@ class App extends Component {
     const { name, contacts, filter, number } = this.state;
     return (
       <div>
-        <Section tittle="Name">
-          <input
-            type="text"
-            name="name"
-            required
-            value={name}
-            onChange={this.handleNameChange}
-            maxLength={20}
-          />
-          <input
-            type="tel"
-            name="number"
-            required
-            value={number}
-            onChange={this.handleNumberChange}
-          />
-        </Section>
-
-        <AddContact onAddContact={this.handleAddContact} />
-        <Section tittle="Contacts">
-          <Contacts
-            name={name}
-            contacts={contacts}
-            number={number}
-            id={nanoid()}
-          />
-        </Section>
+        <h1>Phonebook</h1>
+        <ContactForm
+          name={name}
+          number={number}
+          handleNameChange={this.handleNameChange}
+          handleNumberChange={this.handleNumberChange}
+          handleSubmit={this.handleAddContact}
+        />
+        <h2>Contacts</h2>
+        <Contacts
+          name={name}
+          contacts={contacts}
+          number={number}
+          id={nanoid()}
+        />
       </div>
     );
   }
