@@ -1,7 +1,6 @@
 import React from 'react';
-
+import styles from './ContactForm.module.css';
 const ContactForm = ({
-  title,
   name,
   number,
   handleNameChange,
@@ -15,7 +14,7 @@ const ContactForm = ({
 
   return (
     <section>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className={styles.formStyle}>
         <input
           type="text"
           name="name"
@@ -24,6 +23,7 @@ const ContactForm = ({
           onChange={handleNameChange}
           maxLength={20}
           placeholder="Name"
+          className={styles.inputStyle}
         />
         <input
           type="tel"
@@ -32,8 +32,11 @@ const ContactForm = ({
           value={number}
           onChange={handleNumberChange}
           placeholder="Phone Number"
+          className={styles.inputStyle}
         />
-        <button type="submit">Add Contact</button>
+        <button type="submit" className={styles.buttonStyle}>
+          Add Contact
+        </button>
       </form>
     </section>
   );
