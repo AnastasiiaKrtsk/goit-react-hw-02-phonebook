@@ -17,7 +17,7 @@ class App extends Component {
     number: '',
   };
   handleNameChange = e => {
-    const value = e.target.value.replace(/[^A-Za-z\s]/g, ''); // Allow letters and spaces
+    const value = e.target.value.replace(/[^A-Za-z\s]/g, '');
     this.setState({
       name: value,
     });
@@ -66,7 +66,7 @@ class App extends Component {
 
       this.setState(prevState => ({
         name: '',
-        number: '', // Clear the number input
+        number: '',
         contacts: [...prevState.contacts, newContact],
       }));
     }
